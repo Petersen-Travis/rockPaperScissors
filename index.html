@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Game</title>
+
+    <style>
+        
+        a, a:visited {
+            color: black;
+            text-decoration: none;
+        }
+        #options {
+            display: flex;
+        }
+
+        #options div {
+            height: 200px;
+            width: 150px;
+            margin: 10px;
+            border-radius: 10px;
+            border: solid 5px;
+            box-shadow: 5px 5px 5px gray;
+        }
+
+        #rock {
+            background-image: url("https://cdn.glitch.com/ba0615c2-9d9b-4d39-bde6-ff27665ccd56%2Frock2.svg?v=1585077323294");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100px;
+        }
+
+        #paper {
+            background-image: url("https://cdn.glitch.com/ba0615c2-9d9b-4d39-bde6-ff27665ccd56%2Fpaper.svg?v=1585077190646");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 60px;
+        }
+
+        #scissors {
+            background-image: url("https://cdn.glitch.com/ba0615c2-9d9b-4d39-bde6-ff27665ccd56%2Fscissors.svg?v=1585077199444");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 80px;
+        }
+
+        #opponent {
+            display: flex;
+        }
+
+        #opponent div {
+            height: 200px;
+            width: 150px;
+            margin: 10px;
+            border-radius: 10px;
+            border: solid 5px;
+            background-image: url("https://cdn.glitch.com/ba0615c2-9d9b-4d39-bde6-ff27665ccd56%2FheadVader.svg?v=1585006738224");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 130px;
+            box-shadow: 5px 5px 5px gray;
+        }
+
+        button {
+            margin-top: 5%;
+            
+        }
+
+        @media only screen and (max-width: 500px) {
+            #game {
+                display: flex;
+            }
+
+            #opponent {
+                flex-direction: column;
+            }
+
+            #options {
+                flex-direction: column;
+            }
+        }
+        
+        @keyframes declarationW {
+            from {font-size: 1em; color: white;}
+            to {font-size: 2em; color: green;}
+            
+        }
+        
+        @keyframes declarationL {
+            from {font-size: 1em; color: white;}
+            to {font-size: 2em; color: red;}
+            
+        }
+        
+        @keyframes declarationT {
+            from {font-size: 1em; color: white;}
+            to {font-size: 2em; color: black;}
+            
+        }
+        
+        
+
+    </style>
+</head>
+
+<body onLoad="opponentSelection()">
+    <div id="game">
+        <div id="opponent">
+            <div id="orock">
+            </div>
+            <div id="opaper">
+            </div>
+            <div id="oscissors">
+            </div>
+        </div>
+
+        <div id="options">
+            <div id="rock" onclick="selectedRock()" ontouch="touchRock()" onmouseover="hoverrock()" onmouseout="nohoverrock()">
+            </div>
+            <div id="paper" onclick="selectedPaper()" ontouch="touchPaper()" onmouseover="hoverpaper()" onmouseout="nohoverpaper()">
+            </div>
+            <div id="scissors" onclick="selectedScissors()" ontouch="touchScissors()" onmouseover="hoverscissors()" onmouseout="nohoverscissors()">
+            </div>
+        </div>
+    </div>
+
+
+    <button onclick="go()">Go!</button>
+    <button><a href="index.html">Again!</a></button>
+
+    <script>
+        var selected = 0;
+        var opponentSelected = 0;
+
+        function hoverrock() {
+            document.getElementById("rock").style.borderColor = "yellow";
+        }
+
+        function nohoverrock() {
+            document.getElementById("rock").style.borderColor = "black";
+        }
+
+        function hoverscissors() {
+            document.getElementById("scissors").style.borderColor = "yellow";
+        }
+
+        function nohoverscissors() {
+            document.getElementById("scissors").style.borderColor = "black";
+        }
+
+        function hoverpaper() {
+            document.getElementById("paper").style.borderColor = "yellow";
+        }
+
+        function nohoverpaper() {
+            document.getElementById("paper").style.borderColor = "black";
+        }
+
+        function selectedRock() {
+            this.selected = 1;
+            document.getElementById("rock").style.transition = "all 1s";
+            document.getElementById("rock").style.transform = "translatey(20px)";
+            document.getElementById("paper").style.transition = "all 1s";
+            document.getElementById("paper").style.transform = "translatey(0px)";
+            document.getElementById("scissors").style.transition = "all 1s";
+            document.getElementById("scissors").style.transform = "translatey(0px)";
+        }
+
+        function selectedPaper() {
+            this.selected = 2;
+            document.getElementById("rock").style.transition = "all 1s";
+            document.getElementById("rock").style.transform = "translatey(0px)";
+            document.getElementById("paper").style.transition = "all 1s";
+            document.getElementById("paper").style.transform = "translatey(20px)";
+            document.getElementById("scissors").style.transition = "all 1s";
+            document.getElementById("scissors").style.transform = "translatey(0px)";
+        }
+
+        function selectedScissors() {
+            this.selected = 3;
+            document.getElementById("rock").style.transition = "all 1s";
+            document.getElementById("rock").style.transform = "translatey(0px)";
+            document.getElementById("paper").style.transition = "all 1s";
+            document.getElementById("paper").style.transform = "translatey(0px)";
+            document.getElementById("scissors").style.transition = "all 1s";
+            document.getElementById("scissors").style.transform = "translatey(20px)";
+        }
+
+        function opponentSelection() {
+            while (this.opponentSelected === 0) {
+                this.opponentSelected = Math.floor(Math.random() * 4);
+            }
+        }
+
+        function go() {
+            var message = "";
+            if (this.selected === this.opponentSelected) {
+                message = "tie";
+            } else if (this.selected < this.opponentSelected) {
+                if (this.opponentSelected === 3 && this.selected === 1) {
+                    message = "win";
+                } else {
+                    message = "lose";
+                }
+            } else if (this.selected > this.opponentSelected) {
+                if (this.opponentSelected === 3 && this.selected === 1) {
+                    message = "lose";
+                } else {
+                    message = "win";
+                }
+            }
+
+            document.getElementById("opponent").style.display = "none";
+            document.getElementById("options").style.display = "none";
+            
+            var h = document.createElement("H1");
+            var tag = document.createTextNode("You " + message + "!");
+            h.appendChild(tag);
+            document.getElementById("game").appendChild(h);
+            
+            switch(message) {
+                case 'win':
+                    document.getElementById("game").style.animation = "declarationW 4s 1";
+                    break;
+                case 'lose':
+                    document.getElementById("game").style.animation = "declarationL 4s 1";
+                    break;
+                case 'tie':
+                    document.getElementById("game").style.animation = "declarationT 4s 1";
+                    break;
+            }
+        }
+
+        function touchRock() {
+            this.selected = 1;
+            document.getElementById("rock").style.transition = "all 1s";
+            document.getElementById("rock").style.transform = "translatex(20px)";
+            document.getElementById("paper").style.transition = "all 1s";
+            document.getElementById("paper").style.transform = "translatex(0px)";
+            document.getElementById("scissors").style.transition = "all 1s";
+            document.getElementById("scissors").style.transform = "translatex(0px)";
+        }
+
+        function touchPaper() {
+            this.selected = 2;
+            document.getElementById("rock").style.transition = "all 1s";
+            document.getElementById("rock").style.transform = "translatex(0px)";
+            document.getElementById("paper").style.transition = "all 1s";
+            document.getElementById("paper").style.transform = "translatex(20px)";
+            document.getElementById("scissors").style.transition = "all 1s";
+            document.getElementById("scissors").style.transform = "translatex(0px)";
+        }
+
+        function touchScissors() {
+            this.selected = 3;
+            document.getElementById("rock").style.transition = "all 1s";
+            document.getElementById("rock").style.transform = "translatex(0px)";
+            document.getElementById("paper").style.transition = "all 1s";
+            document.getElementById("paper").style.transform = "translatex(0px)";
+            document.getElementById("scissors").style.transition = "all 1s";
+            document.getElementById("scissors").style.transform = "translatex(20px)";
+        }
+
+    </script>
+</body>
+
+</html>
